@@ -1,0 +1,77 @@
+import example.*
+
+// punto 1
+test "incrementa el valor base de lucha de Rolando por uno" {
+	rolando.incrementarLuchaBase()
+	assert.equals(4, rolando.luchaBase())
+}
+test "incrementa el valor base de hechiceria de Rolando por uno"
+{
+	rolando.incrementarHechiceriaBase()
+	assert.equals(2,rolando.hechiceriaBase())
+}
+test "rolando obtiene la espada del destino y recibe sus efectos"
+{
+	rolando.obtenerArtefacto(espadaDelDestino)
+	rolando.lucha().equals(6)
+	assert.equals(6,rolando.lucha())
+}
+test "rolando obtiene varios artefactos"
+{
+	rolando.obtenerArtefacto(espadaDelDestino)
+	rolando.obtenerArtefacto(libroDeHechizos)
+	rolando.obtenerArtefacto(collarDivino)
+	assert.equals(7,rolando.lucha())
+	assert.equals(3,rolando.hechiceria())
+	}
+//-------------------------------------------------------------------------------------
+//punto 2
+test "rolando encuentra una armadura sin reforzar"
+{
+	rolando.obtenerArtefacto(armadura)
+	assert.equals(5,rolando.lucha())
+}
+test "rolando encuentra una armadura con refuerzo de cota de malla"
+{
+	armadura.cambiarRefuerzo(cotaDeMalla,rolando)
+	rolando.obtenerArtefacto(armadura)
+	assert.equals(6,rolando.lucha())
+}
+test "rolando encuentra una armadura con refuerzo de Bendicion"
+{
+	armadura.cambiarRefuerzo(bendicion,rolando)
+	rolando.obtenerArtefacto(armadura)
+	rolando.lucha().equals(5)
+	rolando.hechiceria().equals(2)
+	assert.equals(5,rolando.lucha())
+	assert.equals(2,rolando.hechiceria())
+	
+	}
+test "rolando obtiene una armadura con Hechizo pero no cumple su condicion"
+{
+	armadura.cambiarRefuerzo(hechizo,rolando)
+	rolando.obtenerArtefacto(armadura)
+	assert.equals(1,rolando.hechiceria())
+}
+test "rolando obtiene la misma armadura pero cumpliendo la condicion"
+{
+	rolando.incrementarHechiceriaBase()
+	rolando.incrementarHechiceriaBase()
+	rolando.incrementarHechiceriaBase()
+	armadura.cambiarRefuerzo(hechizo,rolando)
+	rolando.obtenerArtefacto(armadura)
+	assert.equals(6,rolando.hechiceria())
+}
+//---------------------------------------------------------------------------------------
+//punto 3
+test "rolando se encuentra con varios elementos"
+{
+	rolando.encontrarElemento(cofrecitoDeOro)
+	rolando.encontrarElemento(cumuloDeCarbon)
+	rolando.encontrarElemento(viejoSabio)
+	assert.equals(100 ,bandoDelSur.tesoro())
+	assert.equals(50 , bandoDelSur.recursos())
+	assert.equals(4 , rolando.luchaBase())
+	assert.equals(2,  rolando.hechiceriaBase())
+	
+}
