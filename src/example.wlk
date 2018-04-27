@@ -6,6 +6,8 @@ object rolando
   	var artefactos = #{}
   	var luchaAdicional = 0
   	var hechiceriaAdicional = 0
+  	var valorLuchaMejorArtefacto
+  	var valorHechiceriaMejorArtefacto
  method incrementarLuchaBase()
 {
     luchaBase += 1
@@ -19,6 +21,7 @@ object rolando
     artefactos.add(unArtefacto)
     luchaAdicional = artefactos.sum({artefacto => artefacto.valorDeLucha(self)})
     hechiceriaAdicional =artefactos.sum({artefacto => artefacto.valorDeHechiceria(self)})
+    self.mejorArtefacto()
 }
 
 method lucha()
@@ -38,9 +41,29 @@ method hechiceriaBase(){
 }
 method mejorArtefacto()
 {	
-	
-	//return artefactos.filter(NoMeSalioLaCondicion).max({unArtefacto => unArtefacto.sumaDeValores(self)})
+	if(not self.soloHayEspejo()){
+		valorLuchaMejorArtefacto = artefactos.filter({unElemento =>not unElemento.esEspejo()})
+		.max({unArtefacto => unArtefacto.sumaDeValores(self)}).valorDeLucha(self)
+		valorHechiceriaMejorArtefacto= artefactos.filter({unElemento =>not unElemento.esEspejo()})
+		.max({unArtefacto => unArtefacto.sumaDeValores(self)}).valorDeHechiceria(self)
+	}
+	else
+	{
+		valorLuchaMejorArtefacto = 0
+		valorHechiceriaMejorArtefacto = 0
 }
+
+}
+	
+method valorLuchaMejorArtefacto()
+{
+	return valorLuchaMejorArtefacto
+}
+method valorHechiceriaMejorArtefacto()
+{
+	return valorHechiceriaMejorArtefacto
+}
+
 method encontrarElemento(unElemento)
 {
 	unElemento.aplicarEfecto(self)
@@ -49,9 +72,17 @@ method bando()
 {
 	return bando
 }
+method soloHayEspejo()
+{
+	return artefactos.contains(espejoFantastico) && artefactos.size()==1
+}
 }
 object espadaDelDestino
 {
+	method esEspejo(){
+		return false
+	}
+	
 	method valorDeLucha(capo)
 	{
 		return 3
@@ -67,6 +98,9 @@ object espadaDelDestino
 }
 object libroDeHechizos
 {
+	method esEspejo(){
+		return false
+	}
 	method valorDeLucha(capo)
 	{
 		return 0
@@ -82,6 +116,10 @@ object libroDeHechizos
 }
 object collarDivino
 {
+	method esEspejo(){
+		return false
+	}
+	
 	method valorDeLucha(capo)
 	{
 		return 1
@@ -98,6 +136,7 @@ object collarDivino
 }	
 object armadura
 {
+
 	var refuerzo = ninguna
 	var luchaAdicional = 0 
 	var hechiceriaAdicional = 0
@@ -120,6 +159,10 @@ object armadura
 	{
 		return self.valorDeLucha(capo) + self.valorDeHechiceria(capo)
 	}
+	method esEspejo(){
+		return false
+	}
+	
 	
 }
 object cotaDeMalla
@@ -177,12 +220,16 @@ object espejoFantastico
 {
 	method valorDeLucha(capo)
 	{
-		return capo.mejorArtefacto().valorDeLucha()
+		return capo.valorLuchaMejorArtefacto()
 	}
 	method valorDeHechiceria(capo)
 	{
-		return capo.mejorArtefacto().valorDeHechiceria()
+		return capo.valorHechiceriaMejorArtefacto()
 	}
+	method esEspejo(){
+		return true
+	}
+	
 }
 object cofrecitoDeOro
 {

@@ -62,6 +62,14 @@ test "rolando obtiene la misma armadura pero cumpliendo la condicion"
 	rolando.obtenerArtefacto(armadura)
 	assert.equals(6,rolando.hechiceria())
 }
+test"rolando suma el espejo fantastico a sus otros artefactos"
+{
+	rolando.obtenerArtefacto(espadaDelDestino)
+	rolando.obtenerArtefacto(libroDeHechizos)
+	rolando.obtenerArtefacto(collarDivino)
+	rolando.obtenerArtefacto(espejoFantastico)
+	assert.equals(10, rolando.lucha())
+}
 //---------------------------------------------------------------------------------------
 //punto 3
 test "rolando se encuentra con varios elementos"
